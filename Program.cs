@@ -69,48 +69,125 @@ this can cover multiple lines
 // HACK: Temporary fix until API is ready
 
 
-// Numeric Types
+// // Numeric Types
 
-//Integer types (whole numbers)
-byte smallNumber=255;  //0 to 255(1byte)
-sbyte signedByte =-128; //-128 to 127(1 byte)
-short shortNum=32000; // -32,768 to 32,767(2 bytes)
-ushort unsignedShort=65000; //0 to 65,535(2 bytes)
-int normalNum =2000000000; //-2.1 billion to 2.1 billion(4 bytes)
-uint unsignedInt=4000000000; //0 to 4.2 billion (4 bytes)
-long bigNum=9000000000000000000; // very large numbers (8 bytes)
-ulong unsignedLong=18000000000000000000L;
+// //Integer types (whole numbers)
+// byte smallNumber=255;  //0 to 255(1byte)
+// sbyte signedByte =-128; //-128 to 127(1 byte)
+// short shortNum=32000; // -32,768 to 32,767(2 bytes)
+// ushort unsignedShort=65000; //0 to 65,535(2 bytes)
+// int normalNum =2000000000; //-2.1 billion to 2.1 billion(4 bytes)
+// uint unsignedInt=4000000000; //0 to 4.2 billion (4 bytes)
+// long bigNum=9000000000000000000; // very large numbers (8 bytes)
+// ulong unsignedLong=18000000000000000000L;
 
-// Decimal types (floating point)
+// // Decimal types (floating point)
 
-float salary = 50000.50f; // 7 digits of precision (4 bytes)
-double price =99.99; // 15-17 digits of precision (8 bytes)
-decimal money =1000.50m; // 28-29 digits of precision (16 bytes ) - for money
+// float salary = 50000.50f; // 7 digits of precision (4 bytes)
+// double price =99.99; // 15-17 digits of precision (8 bytes)
+// decimal money =1000.50m; // 28-29 digits of precision (16 bytes ) - for money
 
-// Specials types:
-object anything ="Can hold anything";
-dynamic flexible ="Can change type at runtime"; // type checked at runtime
-var inferred = "type inferred by compiler";
+// // Specials types:
+// object anything ="Can hold anything";
+// dynamic flexible ="Can change type at runtime"; // type checked at runtime
+// var inferred = "type inferred by compiler";
 
-// var = compiler decides type
-var age1 = 25;       //int
-var name = "john"; //string
-var price1 = 19.99; //double
-var isActive = true; //bool
+// // var = compiler decides type
+// var age1 = 25;       //int
+// var name = "john"; //string
+// var price1 = 19.99; //double
+// var isActive = true; //bool
 
-// Equivalnet to:
-int age2 =25;
-string name2 = "john";
-double price2 = 19.99;
-bool isActive2=true;
+// // Equivalnet to:
+// int age2 =25;
+// string name2 = "john";
+// double price2 = 19.99;
+// bool isActive2=true;
 
-// var only works with initialized variables
+// // var only works with initialized variables
 
-// var y; // X error: Implicitly-typed variables must be initialized
-var y = 10; // works fine, type inferred as int
+// // var y; // X error: Implicitly-typed variables must be initialized
+// var y = 10; // works fine, type inferred as int
 
 
 int smallNumber =100;
-long bigNumber=smallNumber; // Implicit conversion from int to long
+long bigNumber=smallNumber; // int to long (auto)
 int x =50;
-double y=x;
+double y=x; // int to double (auto)
+
+char c ='A';
+int charValue=c; // char to int (auto,gets ASCII value of 'C')
+// charValue =65
+
+// Explicit Conversions (Casting)
+double price =99.99;
+
+int wholePrice=(int)price; // 99 (decimal lost!)
+
+long bigNum=1000000;
+int smallNum =(int)bigNum;
+
+int largeNum =200;
+byte b =(byte)largeNum; // ok (byte max 250)
+
+int tooLarge=300;
+byte overflow =(byte)tooLarge;
+
+// Convert Class:
+
+// string to Number conversions
+
+string ageStr ="25";
+int age2 = Convert.ToInt32("25");
+string priceStr= "99.99";
+double price =Convert.ToDouble(priceStr);
+string boolStr = "true";
+bool isActive = Convert.ToBoolean(boolStr);
+// Number to String
+
+int num =100;
+string numStr = Convert.ToString(num);
+// or
+string numStr2 = num.ToString();
+// All Convert methods 
+Covnert.ToInt32("123");
+Convert.ToInt64("123456789");
+Convert.ToDouble("3.14");
+Convert.ToDecimal("19.99");
+Convert.ToBoolean("true");
+Convert.ToChar("A");
+Convert.ToDateTime("2024-01-01");
+
+//PARSE METHODS
+
+// string to Number (Parse)
+
+string ageStr2 = "30";
+int age3 = int.Parse(ageStr2);
+
+string priceStr2="99.99";
+double price2 =double.Parse(priceStr2);
+String boolstr2="false";
+bool isActive2 = bool.Parse(boolstr2);
+
+// X parse throws exception if string is not in correct format
+string invalid ="abc";
+int invalidNum = int.Parse(invalid); // throws FormatException
+
+
+// TryParse Methods (Safe Parsing)
+string input ="123";
+if(int.TryParse(input,out int result)){
+    Console.WriteLine($"Valid input!");
+}
+else{
+    Console.WriteLine("Invalid input!");
+}
+
+//Modern C# -declare in same line:
+ 
+if(int.TryParse(input,out int number)){
+    Console.WriteLine($"Number:{number}");
+}
+
+
